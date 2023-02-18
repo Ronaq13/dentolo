@@ -1,4 +1,11 @@
 class Event < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :search_by_all, 
+                  against: [:title, :source, :datetime],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
+
   DEFAULTS = {
     source: 'Dentolo'
   }

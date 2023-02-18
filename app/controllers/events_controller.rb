@@ -3,7 +3,9 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.all
+    @filter = params[:filter]
+    events = @filter.present? ? filter_events : Event.all
+    @events = events.paginate(page: params[:page], per_page: 10)
   end
 
   # GET /events/1 or /events/1.json
@@ -21,7 +23,7 @@ class EventsController < ApplicationController
 
   # POST /events or /events.json
   def create
-    @event = Event.new(event_params)
+    @event = Event.new(create_params)
 
     respond_to do |format|
       if @event.save
@@ -37,7 +39,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1 or /events/1.json
   def update
     respond_to do |format|
-      if @event.update(event_params)
+      if @event.update(update_params)
         format.html { redirect_to event_url(@event), notice: "Event was successfully updated." }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -58,13 +60,25 @@ class EventsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def event_params
-      params.require(:event).permit(:datetime, :title, :source)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+  end
+
+  def create_params
+    create_pr = params.require(:event).permit(:date, :title, :time)
+    {
+      datetime: Time.parse("#{create_pr[:date]} #{create_pr[:time]}").strftime("%d/%m/%y %H:%M"),
+      title: create_pr[:title]
+    }
+  end
+
+  def update_params
+    params.require(:event).permit(:datetime, :title, :source)
+  end
+
+  def filter_events
+    Event.search_by_all(@filter)
+  end
 end

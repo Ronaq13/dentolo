@@ -1,17 +1,6 @@
-<div id="<%= dom_id event %>">
-  <p>
-    <strong>Date & Time:</strong>
-    <%= event.datetime %>
-  </p>
-
-  <p>
-    <strong>Title:</strong>
-    <%= event.title %>
-  </p>
-
-  <p>
-    <strong>Source:</strong>
-    <%= event.source %>
-  </p>
-
-</div>
+<tr>
+  <td><%= event.datetime %></td>
+  <td><%= event.title %></td>
+  <td><%= event.source %></td>
+  <td><p><%= link_to "Show this event", event %></p></td>
+</tr>

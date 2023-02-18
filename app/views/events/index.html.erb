@@ -1,14 +1,35 @@
 <p style="color: green"><%= notice %></p>
+<br>
+<%= link_to "New event", new_event_path %>
 
-<h1>Events</h1>
 
-<div id="events">
-  <% @events.each do |event| %>
-    <%= render event %>
-    <p>
-      <%= link_to "Show this event", event %>
-    </p>
-  <% end %>
+<div class="container">
+  <%= will_paginate @events %>
+
+  <div class="index-title">
+    <h1>Events</h1>
+    <div class="search-container">
+      <%= form_tag events_path, method: :get do %>
+        <%= text_field_tag :filter, params[:filter] %>
+        <%= submit_tag('Search', name: nil) %>
+      <% end %>
+    </div>
+  </div>
+  
+  <br>
+  <br>
+
+  <table id="events" class="w-100">
+    <tr>
+      <th>Date & Time</th>
+      <th>Title</th>
+      <th>Source</th>
+    </tr>
+
+    <% @events.each do |event| %>
+      <%= render event %>
+    <% end %>
+  </table>
 </div>
 
-<%= link_to "New event", new_event_path %>
+

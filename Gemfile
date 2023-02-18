@@ -49,6 +49,8 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'nokogiri', '~> 1.14', '>= 1.14.2'
+gem 'pg_search'
+gem 'will_paginate', '~> 3.3'
 
 group :development, :test do
   gem 'byebug'

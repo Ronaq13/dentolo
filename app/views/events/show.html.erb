@@ -1,10 +1,25 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @event %>
 
-<div>
-  <%= link_to "Edit this event", edit_event_path(@event) %> |
-  <%= link_to "Back to events", events_path %>
+<div class="container">
+  <table id="events" class="w-100">
+    <tr>
+      <th>Date & Time</th>
+      <th>Title</th>
+      <th>Source</th>
+    </tr>
 
-  <%= button_to "Destroy this event", @event, method: :delete %>
+    <%= render @event %>
+  </table>
+
+
+  <div>
+    <%= link_to "Edit this event", edit_event_path(@event) %> |
+    <%= link_to "Back to events", events_path %>
+
+    <br>
+    <br>
+    <%= button_to "Destroy this event", @event, method: :delete %>
+  </div>
 </div>
+
